@@ -24,8 +24,8 @@ WALLS_COLOR = (0, 0, 0)  # White color for the frame
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Quoridor Game")
 
-from Player1AIempty import *
-from Player2AIempty import *
+from P1 import *
+from P2 import *
 
 random_wall = True
 player1human = False
