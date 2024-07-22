@@ -18,4 +18,4 @@ chromosomePopulation = f.read()
 f.close()
 chromosomePopulation = eval(chromosomePopulation) #List of chromosome population
 
-#Now we want to confront each model against 
+#Now we want to train this population
