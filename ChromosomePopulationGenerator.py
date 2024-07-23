@@ -6,9 +6,7 @@ OUTPUT_PATH = "ChromosomePopulation"
 chromosome_composition = {
     "EffDistOPP2WinBeforeUsingWall": [1,25],
     "Dist2WinXRatioHazardToLose": [1,100],
-    "PutAWallIfIncreasesOpponentPath": [0,2], #0 Never; 1 Mandatory; 2 Only if path not increase for us
-    "PointsBehindToTriggerBlockingOpponent": [0,50],
-    "MovingOrWall": [0,1] #0 Moving; 1 Wall
+    "PutAWallIfIncreasesOpponentPath": [0,2]
 }
 
 # print(chromosome_composition.values)

@@ -106,8 +106,6 @@ def strategy(chromosome, player, game):
                 if len(testPath) > distanceToWinP2:
                     possibleOutput.append("wall")
                 walls.pop()
-        if chromosome[3] <= scoreP2 - scoreP1:
-            possibleOutput.append("wall")
     if player == 2:
         Dist2WinXRatioHazardToLose = distanceToWinP2* (int)(distanceToWinP2/distanceToWinP1)
         if len(pathP1) <= chromosome[0]:
@@ -120,8 +118,6 @@ def strategy(chromosome, player, game):
                 if len(testPath) > distanceToWinP1:
                     possibleOutput.append("wall")
                 walls.pop()
-        if chromosome[3] <= scoreP1 - scoreP2:
-            possibleOutput.append("wall")
     
     if Dist2WinXRatioHazardToLose <= chromosome[1]:
         possibleOutput.append("move")
@@ -129,37 +125,10 @@ def strategy(chromosome, player, game):
     if chromosome[2] == 1:
         possibleOutput.append("wall")
 
-    numberOfPossibleOutputs = len(possibleOutput)
-
-    if numberOfPossibleOutputs == 0:
-        print("No possible output")
-        if chromosome[4] == 0:
-            finalOutput = "move"
-        elif chromosome[4] == 1:
-            finalOutput = "wall"
-    if numberOfPossibleOutputs > 1:
-        movePossible = False
-        wallPossible = False
-        for i in range(numberOfPossibleOutputs):
-            if possibleOutput[i] == "move":
-                movePossible = True
-            if possibleOutput[i] == "wall":
-                movePossible = True
-        if wallPossible and movePossible:
-            if chromosome[4] == 0:
-                finalOutput = "move"
-            elif chromosome[4] == 1:
-                finalOutput = "wall"
-        else:
-            if wallPossible:
-                finalOutput = "wall"
-            elif movePossible:
-                finalOutput = "move"
-
-    print("PATH P1 : ", pathP1)
-    print("PATH P2 : ", pathP2)
-    print("POSITION P1 : ", positionP1)
-    print("POSITION P2 : ", positionP2)
+    if len(possibleOutput) == 0:
+        finalOutput =  "move" #default action
+    if len(possibleOutput) >= 1:
+        finalOutput = possibleOutput[0]
     if finalOutput == "move" and player == 1:
         return input_to_reach_next(positionP1,pathP1[1])
     if finalOutput == "move" and player == 2:
