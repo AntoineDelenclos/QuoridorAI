@@ -8,9 +8,11 @@ import random
 fitness_scores = []
 #Now we want to train this population
 chromosome_composition = {
-    "EffDistOPP2WinBeforeUsingWall": [1,4],
+    "EffDistOPP2WinBeforeUsingWall": [1,25],
     "Dist2WinXRatioHazardToLose": [1,100],
-    "PutAWallIfIncreasesOpponentPath": [0,2]
+    "PutAWallIfIncreasesOpponentPath": [0,2], #0 Never; 1 Mandatory; 2 Only if path not increase for us
+    "PointsBehindToTriggerBlockingOpponent": [0,50],
+    "MovingOrWall": [0,1] #0 Moving; 1 Wall
 }
 
 def gradientToWin(player, game_state):
@@ -104,8 +106,12 @@ def mutate(chromosome, mutation_rate=0.1):
             chromosome[mutation_point] = random.randint(1, 4)
         elif mutation_point == 1:
             chromosome[mutation_point] = random.randint(1, 100)
-        else:
+        elif mutation_point == 2:
             chromosome[mutation_point] = random.randint(0, 2)
+        elif mutation_point == 3:
+            chromosome[mutation_point] = random.randint(0, 50)
+        elif mutation_point == 4:
+            chromosome[mutation_point] = random.randint(0,1)
 
     return chromosome
 
@@ -160,4 +166,4 @@ def training(generations, population_size):
         
 
 # Initialisation
-training(generations=10, population_size=10)
+training(generations=2, population_size=10)
