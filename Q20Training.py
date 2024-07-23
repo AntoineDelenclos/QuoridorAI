@@ -415,45 +415,26 @@ class Quoridor:
         stop_game = False
 
         while running:
-            clock.tick(30)
+            clock.tick(60)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN  or event.key == K_PAGEUP or event.key == K_PAGEDOWN:
-                        if current_move is None:
-                            if move_counter == 0:
-                                if random_wall == True:
-                                    game.place_random_wall()
-                                if event.key == pygame.K_UP or event.key == K_PAGEUP:
-                                    game.ply = 0
-                                elif event.key == pygame.K_DOWN or event.key == K_PAGEDOWN:
-                                    game.ply = 1
-                                #else stays random
-                            else:
-                                if game.ply == 0:
-                                    if player1human == True:
-                                        # print(game.get_legal_moves())
-                                        #aimove = game.player1_ai.get_move(game)
-                                        ## print(type(aimove))
-                                        current_move = tuple(input("Player 1>").replace(' ','').replace('(','').replace(')','').rstrip(',').replace("'","").split(','))
-                                        if len(current_move)>1:
-                                            current_move = (current_move[0], int(current_move[1]), int(current_move[2])) 
-                                        ## print(type(current_move))
-                                        ## print(current_move,aimove) 
-                                    else:
-                                        current_move = game.player1_ai.get_move(game)
-                                else:
-                                    current_move = game.player2_ai.get_move(game)
-                                illegal = False
-                                ## print(current_move, "NOT IN", game.get_legal_moves(), current_move not in game.get_legal_moves())
-                                if current_move not in game.get_legal_moves():
-                                    illegal = True
-                                    # print("ILLEGAL MOVE DETECTED", game.ply)
-                            move_counter += 1
-                    elif event.key == pygame.K_m:
-                        current_move = input()
+            if current_move is None:
+                if move_counter == 0:
+                    if random_wall == True:
+                        game.place_random_wall()
+                    game.ply = 0 #Always start the training with red player first
+                else:
+                    print("play")
+                    if game.ply == 0:
+                        current_move = game.player1_ai.get_move(game)
+                    elif game.ply == 1:
+                        current_move = game.player2_ai.get_move(game)
+                    illegal = False
+                    ## print(current_move, "NOT IN", game.get_legal_moves(), current_move not in game.get_legal_moves())
+                    if current_move not in game.get_legal_moves():
+                        illegal = True
+                        # print("ILLEGAL MOVE DETECTED", game.ply)
+                move_counter += 1
+
 
 
 
