@@ -141,9 +141,21 @@ def training(generations, population_size):
 
 
         print(fitness_scores)
-    goats_scores = evaluate_population(goatsP1, goatsP2)
-    GOAT_P1 = [chromosome for _, chromosome in sorted(zip(goats_scores[0], goatsP1), reverse=True)][0]
-    GOAT_P2 = [chromosome for _, chromosome in sorted(zip(goats_scores[1], goatsP2), reverse=True)][0]
+    goatsPopulationFinalP1 = []
+    goatsPopulationFinalP1.append(goatsP1[-1][0])
+    maxP1 = max(goatsP1, key=lambda x: x[1])
+    goatsPopulationFinalP1.append(maxP1[0])
+
+    goatsPopulationFinalP2 = []
+    goatsPopulationFinalP2.append(goatsP2[-1][0])
+    maxP2 = max(goatsP2, key=lambda x: x[1])
+    goatsPopulationFinalP2.append(maxP2[0])
+
+    goats_scores = evaluate_population(goatsPopulationFinalP1, goatsPopulationFinalP2)
+    GOAT_P1 = [chromosome for _, chromosome in sorted(zip(goats_scores[0], goatsP1), reverse=True)][0][0]
+    GOAT_P2 = [chromosome for _, chromosome in sorted(zip(goats_scores[1], goatsP2), reverse=True)][0][0]
+    print("GOAT_P1 : ", GOAT_P1)
+    print("GOAT_P2 : ", GOAT_P2)
     return (GOAT_P1, GOAT_P2)
         
 

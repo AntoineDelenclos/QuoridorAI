@@ -423,7 +423,6 @@ class Quoridor:
                         game.place_random_wall()
                     game.ply = 0 #Always start the training with red player first
                 else:
-                    print("play")
                     if game.ply == 0:
                         current_move = game.player1_ai.get_move(game)
                     elif game.ply == 1:
