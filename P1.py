@@ -1,7 +1,9 @@
 import random
 from PathfindingPlayer import *
 
-class Player1AI:    
+class Player1AI():
+    def __init__(self, chromosome):
+        self.chromosome = chromosome
     def get_move(self, game):
         legal_moves = game.get_legal_moves()
         #you can retrieve information from the game object

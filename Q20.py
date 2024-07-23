@@ -31,15 +31,15 @@ random_wall = True
 player1human = False
 
 class Quoridor:
-    def __init__(self, board_size):
+    def __init__(self, board_size,player1_chromosome=None,player2_chromosome=None):
         self.board_size = board_size
         self.board = [[False for _ in range(board_size)] for _ in range(board_size)]
         self.players = ['P1', 'P2']
         self.player_positions = {'P1': (board_size - 1, board_size // 2), 'P2': (0, board_size // 2  if board_size % 2 == 1 else board_size // 2 -1)}
         self.walls = {'P1': num_walls, 'P2': num_walls}
         self.ply = random.randint(0,1)
-        self.player1_ai = Player1AI()  # Create an instance of Player1's AI
-        self.player2_ai = Player2AI()  # Create an instance of Player2's AI
+        self.player1_ai = Player1AI(player1_chromosome)  # Create an instance of Player1's AI
+        self.player2_ai = Player2AI(player2_chromosome)  # Create an instance of Player2's AI
         self.move_log = []  # Move log to store the moves
         self.previous_board = None
         self.previous_player_positions = {'P1': None, 'P2': None}  # Initialize the previous_player_positions attribute

@@ -1,4 +1,4 @@
-def calculate_fitness(win, walls_placed, opponent_walls_placed, gradient_to_win, opponent_gradient_to_win):
+def calculate_fitness(win, walls_placed, opponent_walls_placed, gradient_to_win = None, opponent_gradient_to_win = None):
     # Initialize the fitness score
     fitness_score = 0
     
