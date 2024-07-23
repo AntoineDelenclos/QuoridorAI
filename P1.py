@@ -1,11 +1,12 @@
 import random
 from PathfindingPlayer import *
+from Strategy import *
 
 class Player1AI:    
     def get_move(self, game):
         legal_moves = game.get_legal_moves()
         #you can retrieve information from the game object
-        # print("remaining walls",game.walls)
+        print("remaining walls",game.walls)
         # print("player_positions",game.player_positions)
         # print("board",game.board) 
         # ("P1",legal_moves)
@@ -26,4 +27,6 @@ class Player1AI:
         print("Walls:",walls)
         print("PATH",path)
         print("Move_input:",move_input)
-        return((move_input,))
+
+        action = strategy([2,2,1],1,game)
+        return((action,))
