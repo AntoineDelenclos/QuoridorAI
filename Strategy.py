@@ -126,28 +126,19 @@ def strategy(chromosome, player, game):
         possibleOutput.append("wall")
 
     if len(possibleOutput) == 0:
-        print("No possible output")
         finalOutput =  "move" #default action
     if len(possibleOutput) >= 1:
         finalOutput = possibleOutput[0]
-    print("PATH P1 : ", pathP1)
-    print("PATH P2 : ", pathP2)
-    print("POSITION P1 : ", positionP1)
-    print("POSITION P2 : ", positionP2)
     if finalOutput == "move" and player == 1:
-        print("input_to_reach : ", input_to_reach_next(positionP1,pathP1[1]))
         return input_to_reach_next(positionP1,pathP1[1])
     if finalOutput == "move" and player == 2:
-        print("input_to_reach : ", input_to_reach_next(positionP2,pathP2[1]))
         return input_to_reach_next(positionP2,pathP2[1])
     if finalOutput == "wall" and player == 1:
-        print("azgazg")
         if whereToPlaceWall(positionP2,pathP2[1],legalMoves) is None:
             return input_to_reach_next(positionP1,pathP1[1])
         else:
             return whereToPlaceWall(positionP2,pathP2[1],legalMoves)
     if finalOutput == "wall" and player == 2:
-        print("ajkzgliakzgopkzdoigzsdg")
         if whereToPlaceWall(positionP1,pathP1[1],legalMoves) is None:
             return input_to_reach_next(positionP2,pathP2[1])
         else:

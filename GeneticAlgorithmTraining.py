@@ -13,16 +13,16 @@ chromosome_composition = {
     "PutAWallIfIncreasesOpponentPath": [0,2]
 }
 
-def gradientToWin(player, game):
+def gradientToWin(player, game_state):
     grid = [[0 for i in range(5)] for j in range(5)]
-    walls = transformBoardToWallsTuple(game.board)
+    walls = transformBoardToWallsTuple(game_state["g_board"])
     if player == 1:
         goals = [(0,i) for i in range(5)]
-        actualPosition = game.player_positions.get('P1')
+        actualPosition = game_state["g_p1_position"]
     elif player == 2:
         goals = [(4,i) for i in range(5)]
-        actualPosition = game.player_positions.get('P2')
-    gradient_to_win = 1 - (bfs(actualPosition, goals, grid, walls)/25)
+        actualPosition = game_state["g_p2_position"]
+    gradient_to_win = 1 - (len(bfs(actualPosition, goals, grid, walls))/25)
     return gradient_to_win
     
 def ChromosomePopulationGeneration(population_size):
@@ -33,34 +33,37 @@ def ChromosomePopulationGeneration(population_size):
     return chromosomePopulation
 
 def evaluate_chromosome(chromosome1, chromosome2):
-    
     # Suppose we have a function to play the game using the chromosome
-    game = Q20Training.Quoridor.run_game(chromosome1, chromosome2)
+    game_state = Q20Training.Quoridor.run_game(chromosome1, chromosome2)
     
-    if game.game_over:
-        P1_walls_placed = 4 - game.walls.get("P1")
-        P2_walls_placed = 4 - game.walls.get("P2")
+    P1_walls_placed = 4 - game_state["g_walls_p1"]
+    P2_walls_placed = 4 - game_state["g_walls_p2"]
 
-        if game.player_positions["P1"][0] == 0:
-            P2_gradient_to_win= gradientToWin(2, game)
-            fitness1 = calculate_fitness(True, P1_walls_placed, P2_walls_placed, None, P2_gradient_to_win)
-            fitness2 = calculate_fitness(False, P1_walls_placed, P2_walls_placed, P2_gradient_to_win, None)
-        elif game.player_positions["P2"][0] == 4:
-            P1_gradient_to_win = gradientToWin(1, game)
-            fitness2 = calculate_fitness(True, P2_walls_placed, P1_walls_placed, None, P1_gradient_to_win)
-            fitness1 = calculate_fitness(False, P1_walls_placed, P2_walls_placed, P1_gradient_to_win, None)
-    return {fitness1,fitness2}
+    if game_state["g_player_positions_p1_0"] == 0:
+        P2_gradient_to_win= gradientToWin(2, game_state)
+        fitness1 = calculate_fitness(True, P1_walls_placed, P2_walls_placed, None, P2_gradient_to_win)
+        fitness2 = calculate_fitness(False, P1_walls_placed, P2_walls_placed, P2_gradient_to_win, None)
+    elif game_state["g_player_positions_p2_0"] == 4:
+        P1_gradient_to_win = gradientToWin(1, game_state)
+        fitness2 = calculate_fitness(True, P2_walls_placed, P1_walls_placed, None, P1_gradient_to_win)
+        fitness1 = calculate_fitness(False, P1_walls_placed, P2_walls_placed, P1_gradient_to_win, None)
+    return [fitness1,fitness2]
 
 def evaluate_population(population1,population2):
     fitness_scores = [[] for i in range(2)]
     for i in range(len(population1)):
         fitness = evaluate_chromosome(population1[i],population2[i])
+        # print(fitness)
         fitness_scores[0].append(fitness[0])
         fitness_scores[1].append(fitness[1])
     return fitness_scores
 
-def rank_selection(fitness_scores, population):
-    sorted_population1 = [chromosome for _, chromosome in sorted(zip(fitness_scores[0], population), reverse=True)]
+def rank_selection(fitness_scores, population, p_type):
+    if p_type == 1:
+        sorted_population1 = [chromosome for _, chromosome in sorted(zip(fitness_scores[0], population), reverse=True)]
+    elif p_type == 2:
+        sorted_population1 = [chromosome for _, chromosome in sorted(zip(fitness_scores[1], population), reverse=True)]
+
     top_two = sorted_population1[:2]
 
     return top_two
@@ -101,19 +104,19 @@ def create_new_population(selected_population, population_size):
 def training(generations, population_size):
     chromosomePopulation1 = ChromosomePopulationGeneration(population_size)
     chromosomePopulation2 = ChromosomePopulationGeneration(population_size)
-    print(chromosomePopulation1, chromosomePopulation2)
     for generation in range(generations):
+        print("new population 1 P1 ",chromosomePopulation1, "new population 1 P2 ", chromosomePopulation2, "gen ", generation)
         fitness_scores = evaluate_population(chromosomePopulation1, chromosomePopulation2)
 
-        selected_population1 = rank_selection(fitness_scores, chromosomePopulation1)
+        selected_population1 = rank_selection(fitness_scores, chromosomePopulation1, p_type=1)
         chromosomePopulation1 = create_new_population(selected_population1, population_size)
 
-        selected_population2 = rank_selection(fitness_scores, chromosomePopulation2)
+        selected_population2 = rank_selection(fitness_scores, chromosomePopulation2, p_type=2)
         chromosomePopulation2 = create_new_population(selected_population2, population_size)
 
 
-        
-        print(f"Generation {generation}: Best Fitness = {max(fitness_scores)}")
+        print(fitness_scores)
+        # print(f"Generation {generation}: Best Fitness = {fitness_scores}")
 
 # Initialisation
 training(generations=10, population_size=10)

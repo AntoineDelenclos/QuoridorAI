@@ -61,7 +61,6 @@ def is_blocked_by_wall(start, end, walls):
 
 def input_to_reach_next(actual,next):
   move = (next[0]-actual[0],next[1]-actual[1])
-  print("movement: ",move)
   if move == (-1,0):
     return 'U'
   elif move == (1,0):
@@ -146,9 +145,9 @@ def place_wall(self, game, wall_type, row, col):
 
 # path = bfs(start, goals, grid, walls)
 # if path:
-#   print(path)
-#   print(input_to_reach_next(path[0],path[1]))
+#   # print(path)
+#   # print(input_to_reach_next(path[0],path[1]))
 #   #len(path) will help to choose the best path to win as they are several valid squares to win
 # else:
-#   print("No path found") #Impossible as it would be due to a forbidden move played prior
+#   # print("No path found") #Impossible as it would be due to a forbidden move played prior
 
