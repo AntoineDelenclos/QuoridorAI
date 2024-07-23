@@ -35,8 +35,8 @@ def ChromosomePopulationGeneration(population_size):
 def evaluate_chromosome(chromosome1, chromosome2):
     
     # Suppose we have a function to play the game using the chromosome
-    game = Q20.Quoridor(board_size=5,player1_chromosome=chromosome1, player2_chromosome=chromosome2)
-
+    game = Q20.run_game(chromosome1, chromosome2)
+    
     if game.game_over:
         P1_walls_placed = 4 - game.walls.get("P1")
         P2_walls_placed = 4 - game.walls.get("P2")
@@ -49,7 +49,7 @@ def evaluate_chromosome(chromosome1, chromosome2):
             P1_gradient_to_win = gradientToWin(1, game)
             fitness2 = calculate_fitness(True, P2_walls_placed, P1_walls_placed, None, P1_gradient_to_win)
             fitness1 = calculate_fitness(False, P1_walls_placed, P2_walls_placed, P1_gradient_to_win, None)
-        return {fitness1,fitness2}
+    return {fitness1,fitness2}
 
 def evaluate_population(population1,population2):
     fitness_scores = [[] for i in range(2)]
