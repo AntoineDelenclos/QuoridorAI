@@ -31,7 +31,7 @@ class Player1AI:
         action = strategy([2,2,1],1,game)
         return((action,))
     
-   #wallfun
+    #wallfunc
     def place_wall(self, game, wall_type, row, col):
         """
         Attempt to place a wall for Player 1.
