@@ -1,6 +1,6 @@
 import random
 from PathfindingPlayer import *
-
+from Strategy import *
 class Player2AI:
     def __init__(self, chromosome):
         self.chromosome = chromosome
@@ -20,5 +20,5 @@ class Player2AI:
         # path = bfs(start,goals,grid,walls)
         # move_input = input_to_reach_next(start,path[1])
         # # print("PATH",path)
-        action = strategy(chromosome,1,game)
+        action = strategy(self.chromosome,1,game)
         return((action,))

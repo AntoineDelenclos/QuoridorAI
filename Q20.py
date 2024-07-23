@@ -393,6 +393,7 @@ class Quoridor:
             text = log_font.render(str(move[0])+" "+str(move[1]), True, LOG2_COLOR)
             window.blit(text, (WIDTH + 300, 50 + i * 15))
 
+print("test")
 game = Quoridor(board_size)
 
 running = True

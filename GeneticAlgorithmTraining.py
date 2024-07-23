@@ -30,6 +30,7 @@ def ChromosomePopulationGeneration(population_size):
     for i in range(population_size):
         chromosome = [random.randint(chromosome_composition[gene_name][0],chromosome_composition[gene_name][1], chromosome_composition[gene_name][2]) for gene_name in chromosome_composition]
         chromosomePopulation.append(chromosome)
+    print("azazazgazg",chromosomePopulation)
     return chromosomePopulation
 
 def evaluate_chromosome(chromosome1, chromosome2):
@@ -98,10 +99,10 @@ def create_new_population(selected_population, population_size):
     
     return new_population[:population_size]
 
-def training(generations=100, population_size=10):
+def training(generations, population_size):
     chromosomePopulation1 = ChromosomePopulationGeneration(population_size)
     chromosomePopulation2 = ChromosomePopulationGeneration(population_size)
-    
+    print(chromosomePopulation1, chromosomePopulation2)
     for generation in range(generations):
         fitness_scores = evaluate_population(chromosomePopulation1, chromosomePopulation2)
 
@@ -116,4 +117,4 @@ def training(generations=100, population_size=10):
         print(f"Generation {generation}: Best Fitness = {max(fitness_scores)}")
 
 # Initialisation
-training(generations=100, population_size=10)
+training(generations=10, population_size=10)

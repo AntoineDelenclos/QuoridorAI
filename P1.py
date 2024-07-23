@@ -31,5 +31,5 @@ class Player1AI():
         # print("Move_input:",move_input)
 
         # action = strategy([2,2,1],1,game)
-        action = strategy(chromosome,1,game)
+        action = strategy(self.chromosome,1,game)
         return((action,))       
