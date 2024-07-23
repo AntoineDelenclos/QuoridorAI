@@ -53,9 +53,9 @@ def is_blocked_by_wall(start, end, walls):
   x_min = min(sx,ex)
   y_min = min(sy,ey)
   if ex - sx == 1 or ex - sx == -1: #Vertical movement
-    return ('v', y_min, x_min) in walls
+    return ('V', y_min, x_min) in walls
   elif ey - sy == 1 or ey - sy == -1: #Horizontal movement
-    return ('h', y_min, x_min) in walls
+    return ('H', y_min, x_min) in walls
   else:
     return False
 
@@ -79,9 +79,9 @@ def transformBoardToWallsTuple(board):
             for x in range(5):
                 if board[y][x] != False:
                     if board[y][x] == 'HH' or board[y][x] == 'H':
-                        wallsTuple.append(('h',x,y))
+                        wallsTuple.append(('H',y,x))
                     elif board[y][x] == 'VV' or board[y][x] == 'V':
-                        wallsTuple.append(('v',x,y))
+                        wallsTuple.append(('V',y,x))
         return wallsTuple
 
 # # TEST
@@ -94,10 +94,10 @@ def transformBoardToWallsTuple(board):
 #   [0, 0, 0, 0, 0]
 # ]
 
-# walls = [('v',1,1),('h',0,2),('h',1,2)] #Wall structure : (v/h,y,x) where wall orientation is indicated by 'v' or 'h'
+# walls = [('V',1,1),('H',0,2),('H',1,2)] #Wall structure : (v/h,y,x) where wall orientation is indicated by 'v' or 'h'
 
 # start = (1,2) #There we just retrieve the player position
-# goals = [(4,2),(2,1)] #We need to just this to be a specific line not a specific square
+# goals = [(2,1)] #We need to just this to be a specific line not a specific square
 
 # path = bfs(start, goals, grid, walls)
 # if path:
