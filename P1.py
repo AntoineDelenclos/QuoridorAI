@@ -32,4 +32,8 @@ class Player1AI():
 
         # action = strategy([2,2,1],1,game)
         action = strategy(self.chromosome,1,game)
-        return((action,))       
+        print("action",action)
+        if len(action) == 1:
+            return((action,))
+        elif len(action) == 3:
+            return((action[0],action[1],action[2]))       

@@ -393,104 +393,104 @@ class Quoridor:
             text = log_font.render(str(move[0])+" "+str(move[1]), True, LOG2_COLOR)
             window.blit(text, (WIDTH + 300, 50 + i * 15))
 
-def run_game (chromosome1, chromosome2):
-    game = Quoridor(board_size, chromosome1, chromosome2)
+    def run_game (chromosome1, chromosome2):
+        game = Quoridor(board_size, chromosome1, chromosome2)
 
-    running = True
-    clock = pygame.time.Clock()
+        running = True
+        clock = pygame.time.Clock()
 
-    current_move = None  # Track the current move
+        current_move = None  # Track the current move
 
-    move_counter = 0
-    if random_wall == False:
-        move_counter = 1
-
-
+        move_counter = 0
+        if random_wall == False:
+            move_counter = 1
 
 
-    stop_game = False
 
-    while running:
-        clock.tick(30)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN  or event.key == K_PAGEUP or event.key == K_PAGEDOWN:
-                    if current_move is None:
-                        if move_counter == 0:
-                            if random_wall == True:
-                                game.place_random_wall()
-                            if event.key == pygame.K_UP or event.key == K_PAGEUP:
-                                game.ply = 0
-                            elif event.key == pygame.K_DOWN or event.key == K_PAGEDOWN:
-                                game.ply = 1
-                            #else stays random
-                        else:
-                            if game.ply == 0:
-                                if player1human == True:
-                                    print(game.get_legal_moves())
-                                    #aimove = game.player1_ai.get_move(game)
-                                    #print(type(aimove))
-                                    current_move = tuple(input("Player 1>").replace(' ','').replace('(','').replace(')','').rstrip(',').replace("'","").split(','))
-                                    if len(current_move)>1:
-                                        current_move = (current_move[0], int(current_move[1]), int(current_move[2])) 
-                                    #print(type(current_move))
-                                    #print(current_move,aimove) 
-                                else:
-                                    current_move = game.player1_ai.get_move(game)
+        stop_game = False
+
+        while running:
+            clock.tick(30)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN  or event.key == K_PAGEUP or event.key == K_PAGEDOWN:
+                        if current_move is None:
+                            if move_counter == 0:
+                                if random_wall == True:
+                                    game.place_random_wall()
+                                if event.key == pygame.K_UP or event.key == K_PAGEUP:
+                                    game.ply = 0
+                                elif event.key == pygame.K_DOWN or event.key == K_PAGEDOWN:
+                                    game.ply = 1
+                                #else stays random
                             else:
-                                current_move = game.player2_ai.get_move(game)
-                            illegal = False
-                            #print(current_move, "NOT IN", game.get_legal_moves(), current_move not in game.get_legal_moves())
-                            if current_move not in game.get_legal_moves():
-                                illegal = True
-                                print("ILLEGAL MOVE DETECTED", game.ply)
-                        move_counter += 1
-                elif event.key == pygame.K_m:
-                    current_move = input()
+                                if game.ply == 0:
+                                    if player1human == True:
+                                        print(game.get_legal_moves())
+                                        #aimove = game.player1_ai.get_move(game)
+                                        #print(type(aimove))
+                                        current_move = tuple(input("Player 1>").replace(' ','').replace('(','').replace(')','').rstrip(',').replace("'","").split(','))
+                                        if len(current_move)>1:
+                                            current_move = (current_move[0], int(current_move[1]), int(current_move[2])) 
+                                        #print(type(current_move))
+                                        #print(current_move,aimove) 
+                                    else:
+                                        current_move = game.player1_ai.get_move(game)
+                                else:
+                                    current_move = game.player2_ai.get_move(game)
+                                illegal = False
+                                #print(current_move, "NOT IN", game.get_legal_moves(), current_move not in game.get_legal_moves())
+                                if current_move not in game.get_legal_moves():
+                                    illegal = True
+                                    print("ILLEGAL MOVE DETECTED", game.ply)
+                            move_counter += 1
+                    elif event.key == pygame.K_m:
+                        current_move = input()
 
 
 
-                    
-    ##            elif event.key == pygame.K_LEFT:
-    ##                game.undo_move()
-    ##                current_move = None  # Reset current_move to None
+                        
+        ##            elif event.key == pygame.K_LEFT:
+        ##                game.undo_move()
+        ##                current_move = None  # Reset current_move to None
 
-        if current_move is not None:
-            if current_move[0] in ['U', 'D', 'L', 'R']:
-                game.move_player(current_move)
-            else:
-                game.place_wall(current_move)
-            print(current_move)
-            game.print_board()
-
-            
-            # Check if the game is over
-            if stop_game == True:
-                running = False
-
-            
-            if game.game_over:
-                stop_game = True
-
-            if illegal == True:
-                print("ENDING", game.ply)
-                if game.ply == 1:   #ply has changed in the meantime, so these are inverted
-                    game.move_log.append(("P1", "ILLEGAL"))
+            if current_move is not None:
+                if current_move[0] in ['U', 'D', 'L', 'R']:
+                    game.move_player(current_move)
                 else:
-                    game.move_log.append(("P2", "ILLEGAL"))            
-                stop_game = True
+                    game.place_wall(current_move)
+                print(current_move)
+                game.print_board()
+
                 
+                # Check if the game is over
+                if stop_game == True:
+                    running = False
 
-            current_move = None
-    
                 
+                if game.game_over:
+                    stop_game = True
 
-        game.draw_board()
-        game.draw_log()
-        pygame.display.update()
+                if illegal == True:
+                    print("ENDING", game.ply)
+                    if game.ply == 1:   #ply has changed in the meantime, so these are inverted
+                        game.move_log.append(("P1", "ILLEGAL"))
+                    else:
+                        game.move_log.append(("P2", "ILLEGAL"))            
+                    stop_game = True
+                    
 
-    input("Press any key to terminate")
-    pygame.quit()
+                current_move = None
+        
+                    
+
+            game.draw_board()
+            game.draw_log()
+            pygame.display.update()
+
+        input("Press any key to terminate")
+        pygame.quit()

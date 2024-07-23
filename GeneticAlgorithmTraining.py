@@ -1,7 +1,7 @@
 import sys
 from fitnessFunction import calculate_fitness
 from PathfindingPlayer import *
-import Q20
+import Q20Training
 import random
 
 
@@ -35,7 +35,7 @@ def ChromosomePopulationGeneration(population_size):
 def evaluate_chromosome(chromosome1, chromosome2):
     
     # Suppose we have a function to play the game using the chromosome
-    game = Q20.run_game(chromosome1, chromosome2)
+    game = Q20Training.Quoridor.run_game(chromosome1, chromosome2)
     
     if game.game_over:
         P1_walls_placed = 4 - game.walls.get("P1")
@@ -116,5 +116,4 @@ def training(generations, population_size):
         print(f"Generation {generation}: Best Fitness = {max(fitness_scores)}")
 
 # Initialisation
-print("zhgzjeg")
 training(generations=10, population_size=10)

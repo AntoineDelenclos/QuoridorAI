@@ -20,5 +20,9 @@ class Player2AI:
         # path = bfs(start,goals,grid,walls)
         # move_input = input_to_reach_next(start,path[1])
         # # print("PATH",path)
-        action = strategy(self.chromosome,1,game)
-        return((action,))
+        action = strategy(self.chromosome,2,game)
+        print("action",action)
+        if len(action) == 1:
+            return((action,))
+        elif len(action) == 3:
+            return((action[0],action[1],action[2]))   

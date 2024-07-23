@@ -12,20 +12,41 @@ def score(player1Advantage, numberOfRemainingWalls, distanceToWin):
     score = player1Advantage * 3 + numberOfRemainingWalls * 4 + (2/distanceToWin) * 10
     return score
 
-def whereToPlaceWall(start, end):
+def whereToPlaceWall(start, end, legal_moves):
     nextMove = input_to_reach_next(start,end)
     if nextMove == 'U':
-        #If wall is possible
-        return ('H',end[0],end[1])
+        if ('H',end[0],end[1]) in legal_moves:
+            return ('H',end[0],end[1])
+        elif ('H',end[0],end[1]-1) in legal_moves:
+            return ('H',end[0],end[1]-1)
+        elif ('H',end[0],end[1]+1) in legal_moves:
+            return ('H',end[0],end[1]+1)
     if nextMove == 'D':
-        return ('H',start[0],start[1])
+        if ('H',start[0],start[1]) in legal_moves:
+            return ('H',start[0],start[1])
+        if ('H',start[0],start[1]-1) in legal_moves:
+            return ('H',start[0],start[1]-1)
+        if ('H',start[0],start[1]+1) in legal_moves:
+            return ('H',start[0],start[1]+1)
     if nextMove == 'L':
-        return ('V',end[0],end[1])
+        if ('V',end[0],end[1]) in legal_moves:
+            return ('V',end[0],end[1])
+        if ('V',end[0],end[1]-1) in legal_moves:
+            return ('V',end[0],end[1]-1)
+        if ('V',end[0],end[1]+1) in legal_moves:
+            return ('V',end[0],end[1]+1)
     if nextMove == 'R':
-        return ('V',start[0],start[1])
+        if ('V',start[0],start[1]) in legal_moves:
+            return ('V',start[0],start[1])
+        if ('V',start[0],start[1]-1) in legal_moves:
+            return ('V',start[0],start[1]-1)
+        if ('V',start[0],start[1]+1) in legal_moves:
+            return ('V',start[0],start[1]+1)
     return None
 
 def strategy(chromosome, player, game):
+    #Legal Moves
+    legalMoves = game.get_legal_moves()
     #Grid / board
     grid = [[0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
@@ -60,8 +81,9 @@ def strategy(chromosome, player, game):
         if len(pathP2) <= chromosome[0]:
             possibleOutput.append("wall")
         if chromosome[2] == 2:
-            walls.append(whereToPlaceWall(positionP2,pathP2[1]))
+            walls.append(whereToPlaceWall(positionP2,pathP2[1],legalMoves))
             testPath = bfs(positionP2, goalsP2, grid, walls)
+            print("path:",testPath)
             if len(testPath) > distanceToWinP2:
                 possibleOutput.append("wall")
             walls.pop()
@@ -70,8 +92,9 @@ def strategy(chromosome, player, game):
         if len(pathP1) <= chromosome[0]:
             possibleOutput.append("wall")
         if chromosome[2] == 2:
-            walls.append(whereToPlaceWall(positionP1,pathP1[1]))
+            walls.append(whereToPlaceWall(positionP1,pathP1[1],legalMoves))
             testPath = bfs(positionP1, goalsP1, grid, walls)
+            print("path:",testPath)
             if len(testPath) > distanceToWinP1:
                 possibleOutput.append("wall")
             walls.pop()
@@ -92,6 +115,6 @@ def strategy(chromosome, player, game):
     if finalOutput == "move" and player == 2:
         return input_to_reach_next(positionP2,pathP2[1])
     if finalOutput == "wall" and player == 1:
-        return whereToPlaceWall(positionP2,pathP2[1])
+        return whereToPlaceWall(positionP2,pathP2[1],legalMoves)
     if finalOutput == "wall" and player == 2:
-        return whereToPlaceWall(positionP1,pathP1[1])
+        return whereToPlaceWall(positionP1,pathP1[1],legalMoves)
