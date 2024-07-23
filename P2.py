@@ -7,6 +7,7 @@ class Player2AI:
         # print("P2",legal_moves)
         start = game.player_positions.get('P2')
         goals = [(4,i) for i in range(5)]
+        # goals = [(4,2)]
         grid = [[0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0],

@@ -12,6 +12,7 @@ class Player1AI:
         # print("P1 start",game.player_positions.get('P1'))
         start = game.player_positions.get('P1')
         goals = [(0,i) for i in range(5)]
+        # goals = [(0,0)]
         grid = [[0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0],

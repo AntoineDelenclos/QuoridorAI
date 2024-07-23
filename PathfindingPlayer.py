@@ -84,7 +84,7 @@ def transformBoardToWallsTuple(board):
                         wallsTuple.append(('v',x,y))
         return wallsTuple
 
-#TEST
+# # TEST
 
 # grid = [
 #   [0, 0, 0, 0, 0],
@@ -97,9 +97,9 @@ def transformBoardToWallsTuple(board):
 # walls = [('v',1,1),('h',0,2),('h',1,2)] #Wall structure : (v/h,y,x) where wall orientation is indicated by 'v' or 'h'
 
 # start = (1,2) #There we just retrieve the player position
-# goal = (1,1) #We need to just this to be a specific line not a specific square
+# goals = [(4,2),(2,1)] #We need to just this to be a specific line not a specific square
 
-# path = bfs(start, goal, grid, walls)
+# path = bfs(start, goals, grid, walls)
 # if path:
 #   print(path)
 #   print(input_to_reach_next(path[0],path[1]))
