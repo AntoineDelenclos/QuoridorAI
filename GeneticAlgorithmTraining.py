@@ -166,4 +166,4 @@ def training(generations, population_size):
         
 
 # Initialisation
-training(generations=2, population_size=10)
+training(generations=40, population_size=30)

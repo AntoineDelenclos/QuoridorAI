@@ -22,10 +22,11 @@ def whereToPlaceWall(start, end, legal_moves):
         elif ('H',end[0],end[1]+1) in legal_moves:
             return ('H',end[0],end[1]+1)
         else:
-            if len(legal_moves[0]) == 3:
-                return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
-            elif len(legal_moves[0]) == 1:
-                return None
+            return None
+            # if len(legal_moves[0]) == 3:
+            #     return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
+            # elif len(legal_moves[0]) == 1:
+            #     return None
     if nextMove == 'D':
         if ('H',start[0],start[1]) in legal_moves:
             return ('H',start[0],start[1])
@@ -34,10 +35,11 @@ def whereToPlaceWall(start, end, legal_moves):
         if ('H',start[0],start[1]+1) in legal_moves:
             return ('H',start[0],start[1]+1)
         else:
-            if len(legal_moves[0]) == 3:
-                return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
-            elif len(legal_moves[0]) == 1:
-                return None
+            return None
+            # if len(legal_moves[0]) == 3:
+            #     return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
+            # elif len(legal_moves[0]) == 1:
+            #     return None
     if nextMove == 'L':
         if ('V',end[0],end[1]) in legal_moves:
             return ('V',end[0],end[1])
@@ -46,10 +48,11 @@ def whereToPlaceWall(start, end, legal_moves):
         if ('V',end[0],end[1]+1) in legal_moves:
             return ('V',end[0],end[1]+1)
         else:
-            if len(legal_moves[0]) == 3:
-                return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
-            elif len(legal_moves[0]) == 1:
-                return None
+            return None
+            # if len(legal_moves[0]) == 3:
+            #     return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
+            # elif len(legal_moves[0]) == 1:
+            #     return None
     if nextMove == 'R':
         if ('V',start[0],start[1]) in legal_moves:
             return ('V',start[0],start[1])
@@ -58,10 +61,11 @@ def whereToPlaceWall(start, end, legal_moves):
         if ('V',start[0],start[1]+1) in legal_moves:
             return ('V',start[0],start[1]+1)
         else:
-            if len(legal_moves[0]) == 3:
-                return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
-            elif len(legal_moves[0]) == 1:
-                return None
+            return None
+            # if len(legal_moves[0]) == 3:
+            #     return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
+            # elif len(legal_moves[0]) == 1:
+            #     return None
 def strategy(chromosome, player, game):
     #Legal Moves
     legalMoves = game.get_legal_moves()
@@ -151,7 +155,7 @@ def strategy(chromosome, player, game):
                 finalOutput = "wall"
             elif movePossible:
                 finalOutput = "move"
-                        
+
     if finalOutput == "move" and player == 1:
         return input_to_reach_next(positionP1,pathP1[1])
     if finalOutput == "move" and player == 2:

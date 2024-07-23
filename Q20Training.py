@@ -473,8 +473,8 @@ class Quoridor:
         
                     
 
-            game.draw_board()
-            game.draw_log()
+            # game.draw_board()
+            # game.draw_log()
             pygame.display.update()
 
         #input("Press any key to terminate")
