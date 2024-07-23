@@ -58,15 +58,38 @@ def evaluate_population(population1,population2):
         fitness_scores[1].append(fitness[1])
     return fitness_scores
 
-def rank_selection(fitness_scores, population, p_type):
+def rank_selection(fitness_scores, population, p_type, goatsP1, goatsP2):
     if p_type == 1:
         sorted_population1 = [chromosome for _, chromosome in sorted(zip(fitness_scores[0], population), reverse=True)]
+       
+        goat1 = sorted_population1[0]
+        found = False
+        for i, (chromosome, count) in enumerate(goatsP1):
+            if chromosome == goat1:
+                goatsP1[i] = (chromosome, count + 1)
+                found = True
+                break
+        # If goat1 is not found in goatsP1, add it
+        if not found:
+            goatsP1.append((goat1, 1))
+
     elif p_type == 2:
         sorted_population1 = [chromosome for _, chromosome in sorted(zip(fitness_scores[1], population), reverse=True)]
+        
+        goat2 = sorted_population1[0]
+        found = False
+        for i, (chromosome, count) in enumerate(goatsP2):
+            if chromosome == goat2:
+                goatsP2[i] = (chromosome, count + 1)
+                found = True
+                break
+        # If goat1 is not found in goatsP1, add it
+        if not found:
+            goatsP2.append((goat2, 1))
 
-    top_two = sorted_population1[:2]
+    topPercent = sorted_population1[:(int)(0.2*len(population))]
 
-    return top_two
+    return topPercent
 
 def crossover(parent1, parent2):
     crossover_point = random.randint(0, len(parent1) - 1)
@@ -89,10 +112,10 @@ def mutate(chromosome, mutation_rate=0.1):
 def create_new_population(selected_population, population_size):
     new_population = selected_population.copy()
     
-    # Ajouter 4 nouveaux chromosomes aléatoires
-    new_population.extend(ChromosomePopulationGeneration(4))
     
-    # Ajouter 4 nouveaux chromosomes à partir du croisement et de la mutation
+    new_population.extend(ChromosomePopulationGeneration((int)(0.4*population_size)))
+    
+    
     while len(new_population) < population_size:
         parent1, parent2 = random.sample(selected_population, 2)
         child1, child2 = crossover(parent1, parent2)
@@ -104,19 +127,25 @@ def create_new_population(selected_population, population_size):
 def training(generations, population_size):
     chromosomePopulation1 = ChromosomePopulationGeneration(population_size)
     chromosomePopulation2 = ChromosomePopulationGeneration(population_size)
+    goatsP1 = []
+    goatsP2 = []
     for generation in range(generations):
         print("new population 1 P1 ",chromosomePopulation1, "new population 1 P2 ", chromosomePopulation2, "gen ", generation)
         fitness_scores = evaluate_population(chromosomePopulation1, chromosomePopulation2)
 
-        selected_population1 = rank_selection(fitness_scores, chromosomePopulation1, p_type=1)
+        selected_population1 = rank_selection(fitness_scores, chromosomePopulation1, 1, goatsP1, goatsP2)
         chromosomePopulation1 = create_new_population(selected_population1, population_size)
 
-        selected_population2 = rank_selection(fitness_scores, chromosomePopulation2, p_type=2)
+        selected_population2 = rank_selection(fitness_scores, chromosomePopulation2, 2, goatsP1, goatsP2)
         chromosomePopulation2 = create_new_population(selected_population2, population_size)
 
 
         print(fitness_scores)
-        # print(f"Generation {generation}: Best Fitness = {fitness_scores}")
+    goats_scores = evaluate_population(goatsP1, goatsP2)
+    GOAT_P1 = [chromosome for _, chromosome in sorted(zip(goats_scores[0], goatsP1), reverse=True)][0]
+    GOAT_P2 = [chromosome for _, chromosome in sorted(zip(goats_scores[1], goatsP2), reverse=True)][0]
+    return (GOAT_P1, GOAT_P2)
+        
 
 # Initialisation
 training(generations=10, population_size=10)
