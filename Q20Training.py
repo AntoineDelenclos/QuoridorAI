@@ -8,8 +8,6 @@ import copy
 board_size = 5
 num_walls = 4
 
-# Initialize Pygame and set up the game window
-pygame.init()
 WIDTH = HEIGHT = 600
 FRAME_SIZE = 40
 WINDOW_WIDTH = WIDTH + FRAME_SIZE*2 + 400
@@ -20,9 +18,9 @@ LOG_COLOR = (255, 0, 0)  # Red color for Player 1's moves
 LOG2_COLOR = (0, 0, 255)  # Blue color for Player 2's moves
 BOTH_COLOR = (128, 0, 128)  # Purple
 WALLS_COLOR = (0, 0, 0)  # White color for the frame
+window = None
 
-window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("Quoridor Game")
+
 
 from P1 import *
 from P2 import *
@@ -59,15 +57,15 @@ class Quoridor:
                             move = ('H', i, j)
                             #simulate placing a wall to compute path existance
                             previous = self.update_board_wall(move)
-                            #print("\ntemporaryH")
-                            #self.print_board()
+                            ## print("\ntemporaryH")
+                            #self.# print_board()
                             reachable1 = self.reachable(self.player_positions['P1'],(0,0))
                             reachable2 = self.reachable(self.player_positions['P2'],(board_size-1,0))
                             if reachable1 and reachable2:
                                 moves.append(move)
-                                #print("reachable", move)
+                                ## print("reachable", move)
                             #else:
-                                #print("not reachable", move)
+                                ## print("not reachable", move)
                             self.restore_board_wall(move, previous)
 
                     # Check if a wall can be placed vertically
@@ -75,15 +73,15 @@ class Quoridor:
                             move = ('V', i, j)
                             #simulate placing a wall to compute path existance
                             previous = self.update_board_wall(move)
-                            #print("\ntemporaryV")
-                            #self.print_board()
+                            ## print("\ntemporaryV")
+                            #self.# print_board()
                             reachable1 = self.reachable(self.player_positions['P1'],(0,0))
                             reachable2 = self.reachable(self.player_positions['P2'],(board_size-1,0))
                             if reachable1 and reachable2:
                                 moves.append(move)
-                                #print("reachable", move)
+                                ## print("reachable", move)
                             #else:
-                                #print("not reachable", move)
+                                ## print("not reachable", move)
                             self.restore_board_wall(move, previous)
 
         # Check if the player can move up
@@ -123,7 +121,7 @@ class Quoridor:
         for i in range(100):
             path = self.extract_path(start_position, target_position)
             if path != [] and path != False:
-                #print("path is ok", path)
+                ## print("path is ok", path)
                 return True
         return False
 
@@ -133,23 +131,23 @@ class Quoridor:
         visited = []
 
         while current[0] != target_position[0]:
-            #print("current",current)
-            #print("legal_directions",self.get_legal_directions(current))
+            ## print("current",current)
+            ## print("legal_directions",self.get_legal_directions(current))
             found_valid_move = False
 
             directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
             random.shuffle(directions)
-            #print(directions )
+            ## print(directions )
             for direction in directions:
                 neighbor = (current[0] + direction[0], current[1] + direction[1])
-                #print("neighbor", neighbor)
+                ## print("neighbor", neighbor)
                 if neighbor in visited:
-                    #print("neighbor already visited", neighbor)
+                    ## print("neighbor already visited", neighbor)
                     continue
 
                 
                 if neighbor == start_position or (neighbor[0] >= 0 and neighbor[0] < self.board_size and neighbor[1] >= 0 and neighbor[1] < self.board_size):
-                    #print("in bounds")
+                    ## print("in bounds")
                     if direction == (0, -1):
                         forward_move = ('L',)
                     elif direction == (0, 1):
@@ -159,17 +157,17 @@ class Quoridor:
                     elif direction == (1, 0):
                         forward_move = ('D',)
 
-                    #print("self.get_legal_directions(neighbor)", self.get_legal_directions(neighbor))
+                    ## print("self.get_legal_directions(neighbor)", self.get_legal_directions(neighbor))
                     if forward_move in self.get_legal_directions(current):
                         path.append(forward_move)
-                        #print("appended", forward_move)
-                        #print("path", path)
-                        #print()
+                        ## print("appended", forward_move)
+                        ## print("path", path)
+                        ## print()
                         visited.append(neighbor)
                         current = neighbor
                         found_valid_move = True
                         break
-            #print("found_valid_move", found_valid_move)
+            ## print("found_valid_move", found_valid_move)
             if not found_valid_move:
                 # No valid move found, backtrack and continue exploring other paths
                 if not path:
@@ -191,9 +189,9 @@ class Quoridor:
                     
                     if direction:
                         current = (current[0] - direction[0], current[1] - direction[1])
-            #print("current, start_position", current, start_position)
+            ## print("current, start_position", current, start_position)
 
-        #print("out of while")    
+        ## print("out of while")    
         return path
 
     def move_player(self, move):
@@ -214,8 +212,8 @@ class Quoridor:
         if (current_player == 'P1' and self.player_positions[current_player][0] == 0) or \
                 (current_player == 'P2' and self.player_positions[current_player][0] == self.board_size - 1):
             if self.game_over == False:
-                print(self.player_positions, self.player_positions[current_player][0] == 0, self.player_positions[current_player][0] == self.board_size - 1)
-                print(f"Player {current_player} wins!")
+                # print(self.player_positions, self.player_positions[current_player][0] == 0, self.player_positions[current_player][0] == self.board_size - 1)
+                # print(f"Player {current_player} wins!")
                 self.move_log.append((current_player, f"Player {current_player} wins!"))
                 self.game_over = True
             
@@ -296,7 +294,7 @@ class Quoridor:
 
 
 
-        print("W",wall_moves)
+        # print("W",wall_moves)
         
         move = random.choice(wall_moves)
         self.update_board_wall(move)
@@ -394,6 +392,12 @@ class Quoridor:
             window.blit(text, (WIDTH + 300, 50 + i * 15))
 
     def run_game (chromosome1, chromosome2):
+        global window
+        # Initialize Pygame and set up the game window
+        pygame.init()
+        window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        pygame.display.set_caption("Quoridor Game")
+
         game = Quoridor(board_size, chromosome1, chromosome2)
 
         running = True
@@ -430,23 +434,23 @@ class Quoridor:
                             else:
                                 if game.ply == 0:
                                     if player1human == True:
-                                        print(game.get_legal_moves())
+                                        # print(game.get_legal_moves())
                                         #aimove = game.player1_ai.get_move(game)
-                                        #print(type(aimove))
+                                        ## print(type(aimove))
                                         current_move = tuple(input("Player 1>").replace(' ','').replace('(','').replace(')','').rstrip(',').replace("'","").split(','))
                                         if len(current_move)>1:
                                             current_move = (current_move[0], int(current_move[1]), int(current_move[2])) 
-                                        #print(type(current_move))
-                                        #print(current_move,aimove) 
+                                        ## print(type(current_move))
+                                        ## print(current_move,aimove) 
                                     else:
                                         current_move = game.player1_ai.get_move(game)
                                 else:
                                     current_move = game.player2_ai.get_move(game)
                                 illegal = False
-                                #print(current_move, "NOT IN", game.get_legal_moves(), current_move not in game.get_legal_moves())
+                                ## print(current_move, "NOT IN", game.get_legal_moves(), current_move not in game.get_legal_moves())
                                 if current_move not in game.get_legal_moves():
                                     illegal = True
-                                    print("ILLEGAL MOVE DETECTED", game.ply)
+                                    # print("ILLEGAL MOVE DETECTED", game.ply)
                             move_counter += 1
                     elif event.key == pygame.K_m:
                         current_move = input()
@@ -463,8 +467,8 @@ class Quoridor:
                     game.move_player(current_move)
                 else:
                     game.place_wall(current_move)
-                print(current_move)
-                game.print_board()
+                # print(current_move)
+                #game.print_board()
 
                 
                 # Check if the game is over
@@ -474,9 +478,10 @@ class Quoridor:
                 
                 if game.game_over:
                     stop_game = True
+                    break
 
                 if illegal == True:
-                    print("ENDING", game.ply)
+                    # print("ENDING", game.ply)
                     if game.ply == 1:   #ply has changed in the meantime, so these are inverted
                         game.move_log.append(("P1", "ILLEGAL"))
                     else:
@@ -492,5 +497,15 @@ class Quoridor:
             game.draw_log()
             pygame.display.update()
 
-        input("Press any key to terminate")
+        #input("Press any key to terminate")
+        game_state = {
+            "g_walls_p1":game.walls.get("P1"),
+            "g_walls_p2":game.walls.get("P2"),
+            "g_player_positions_p1_0":game.player_positions["P1"][0],
+            "g_player_positions_p2_0":game.player_positions["P2"][0],
+            "g_board":game.board,
+            "g_p1_position":game.player_positions.get('P1'),
+            "g_p2_position":game.player_positions.get('P2')
+        }
         pygame.quit()
+        return game_state

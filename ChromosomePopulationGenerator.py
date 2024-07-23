@@ -11,7 +11,7 @@ chromosome_composition = {
     "MovingOrWall": [0,1] #0 Moving; 1 Wall
 }
 
-print(chromosome_composition.values)
+# print(chromosome_composition.values)
 
 def ChromosomePopulationGeneration(population_number):
     chromosomePopulation = []
@@ -20,11 +20,11 @@ def ChromosomePopulationGeneration(population_number):
         chromosomePopulation.append(chromosome)
     return chromosomePopulation
 
-print("Which Player will have this population ?")
+# print("Which Player will have this population ?")
 player = sys.stdin.readline()
 player = player.rstrip("\n")
 player = int(player)
-print("How much chromosome in your population ?")
+# print("How much chromosome in your population ?")
 populationNumber = sys.stdin.readline()
 populationNumber = populationNumber.rstrip("\n")
 populationNumber = int(populationNumber)
