@@ -21,6 +21,11 @@ def whereToPlaceWall(start, end, legal_moves):
             return ('H',end[0],end[1]-1)
         elif ('H',end[0],end[1]+1) in legal_moves:
             return ('H',end[0],end[1]+1)
+        else:
+            if len(legal_moves[0]) == 3:
+                return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
+            elif len(legal_moves[0]) == 1:
+                return None
     if nextMove == 'D':
         if ('H',start[0],start[1]) in legal_moves:
             return ('H',start[0],start[1])
@@ -28,6 +33,11 @@ def whereToPlaceWall(start, end, legal_moves):
             return ('H',start[0],start[1]-1)
         if ('H',start[0],start[1]+1) in legal_moves:
             return ('H',start[0],start[1]+1)
+        else:
+            if len(legal_moves[0]) == 3:
+                return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
+            elif len(legal_moves[0]) == 1:
+                return None
     if nextMove == 'L':
         if ('V',end[0],end[1]) in legal_moves:
             return ('V',end[0],end[1])
@@ -35,6 +45,11 @@ def whereToPlaceWall(start, end, legal_moves):
             return ('V',end[0],end[1]-1)
         if ('V',end[0],end[1]+1) in legal_moves:
             return ('V',end[0],end[1]+1)
+        else:
+            if len(legal_moves[0]) == 3:
+                return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
+            elif len(legal_moves[0]) == 1:
+                return None
     if nextMove == 'R':
         if ('V',start[0],start[1]) in legal_moves:
             return ('V',start[0],start[1])
@@ -42,8 +57,11 @@ def whereToPlaceWall(start, end, legal_moves):
             return ('V',start[0],start[1]-1)
         if ('V',start[0],start[1]+1) in legal_moves:
             return ('V',start[0],start[1]+1)
-    return None
-
+        else:
+            if len(legal_moves[0]) == 3:
+                return (legal_moves[0][0],legal_moves[0][1],legal_moves[0][2])
+            elif len(legal_moves[0]) == 1:
+                return None
 def strategy(chromosome, player, game):
     #Legal Moves
     legalMoves = game.get_legal_moves()
@@ -81,23 +99,25 @@ def strategy(chromosome, player, game):
         if len(pathP2) <= chromosome[0]:
             possibleOutput.append("wall")
         if chromosome[2] == 2:
-            walls.append(whereToPlaceWall(positionP2,pathP2[1],legalMoves))
-            testPath = bfs(positionP2, goalsP2, grid, walls)
-            print("path:",testPath)
-            if len(testPath) > distanceToWinP2:
-                possibleOutput.append("wall")
-            walls.pop()
+            hypWall = whereToPlaceWall(positionP2,pathP2[1],legalMoves)
+            if hypWall is not None:
+                walls.append(hypWall)
+                testPath = bfs(positionP2, goalsP2, grid, walls)
+                if len(testPath) > distanceToWinP2:
+                    possibleOutput.append("wall")
+                walls.pop()
     if player == 2:
         Dist2WinXRatioHazardToLose = distanceToWinP2* (int)(distanceToWinP2/distanceToWinP1)
         if len(pathP1) <= chromosome[0]:
             possibleOutput.append("wall")
         if chromosome[2] == 2:
-            walls.append(whereToPlaceWall(positionP1,pathP1[1],legalMoves))
-            testPath = bfs(positionP1, goalsP1, grid, walls)
-            print("path:",testPath)
-            if len(testPath) > distanceToWinP1:
-                possibleOutput.append("wall")
-            walls.pop()
+            hypWall = whereToPlaceWall(positionP1,pathP1[1],legalMoves)
+            if hypWall is not None:
+                walls.append(whereToPlaceWall(positionP1,pathP1[1],legalMoves))
+                testPath = bfs(positionP1, goalsP1, grid, walls)
+                if len(testPath) > distanceToWinP1:
+                    possibleOutput.append("wall")
+                walls.pop()
     
     if Dist2WinXRatioHazardToLose <= chromosome[1]:
         possibleOutput.append("move")
@@ -106,15 +126,29 @@ def strategy(chromosome, player, game):
         possibleOutput.append("wall")
 
     if len(possibleOutput) == 0:
+        print("No possible output")
         finalOutput =  "move" #default action
     if len(possibleOutput) >= 1:
         finalOutput = possibleOutput[0]
-    
+    print("PATH P1 : ", pathP1)
+    print("PATH P2 : ", pathP2)
+    print("POSITION P1 : ", positionP1)
+    print("POSITION P2 : ", positionP2)
     if finalOutput == "move" and player == 1:
+        print("input_to_reach : ", input_to_reach_next(positionP1,pathP1[1]))
         return input_to_reach_next(positionP1,pathP1[1])
     if finalOutput == "move" and player == 2:
+        print("input_to_reach : ", input_to_reach_next(positionP2,pathP2[1]))
         return input_to_reach_next(positionP2,pathP2[1])
     if finalOutput == "wall" and player == 1:
-        return whereToPlaceWall(positionP2,pathP2[1],legalMoves)
+        print("azgazg")
+        if whereToPlaceWall(positionP2,pathP2[1],legalMoves) is None:
+            return input_to_reach_next(positionP1,pathP1[1])
+        else:
+            return whereToPlaceWall(positionP2,pathP2[1],legalMoves)
     if finalOutput == "wall" and player == 2:
-        return whereToPlaceWall(positionP1,pathP1[1],legalMoves)
+        print("ajkzgliakzgopkzdoigzsdg")
+        if whereToPlaceWall(positionP1,pathP1[1],legalMoves) is None:
+            return input_to_reach_next(positionP2,pathP2[1])
+        else:
+            return whereToPlaceWall(positionP1,pathP1[1],legalMoves)

@@ -61,7 +61,7 @@ def is_blocked_by_wall(start, end, walls):
 
 def input_to_reach_next(actual,next):
   move = (next[0]-actual[0],next[1]-actual[1])
-  print(move)
+  print("movement: ",move)
   if move == (-1,0):
     return 'U'
   elif move == (1,0):
@@ -79,9 +79,12 @@ def transformBoardToWallsTuple(board):
             for x in range(5):
                 if board[y][x] != False:
                     if board[y][x] == 'HH' or board[y][x] == 'H':
-                        wallsTuple.append(('H',y,x))
+                      wallsTuple.append(('H',y,x))
                     elif board[y][x] == 'VV' or board[y][x] == 'V':
-                        wallsTuple.append(('V',y,x))
+                      wallsTuple.append(('V',y,x))
+                    elif board[y][x] == 'HV':
+                      wallsTuple.append(('V',y,x))
+                      wallsTuple.append(('H',y,x))
         return wallsTuple
 
 
@@ -124,7 +127,7 @@ def place_wall(self, game, wall_type, row, col):
     return True
 
 
-    
+
 
 # # TEST
 
