@@ -295,8 +295,8 @@ class Player1AI():
     def __init__(self, chromosome=None):
         self.chromosome = chromosome
     def get_move(self, game):
-        # action = strategy([19,45,1,8,1],1,game) #4,49,2 & [1,8,1]
-        action = strategy(self.chromosome,1,game)
+        action = strategy([22, 9, 0, 39, 0],1,game) #4,49,2 & [1,8,1]
+        # action = strategy(self.chromosome,1,game)
         if len(action) == 1:
             return((action,))
         elif len(action) == 3:
