@@ -392,11 +392,11 @@ class Quoridor:
             window.blit(text, (WIDTH + 300, 50 + i * 15))
 
     def run_game (chromosome1, chromosome2):
-        global window
+        #global window
         # Initialize Pygame and set up the game window
         pygame.init()
-        window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        pygame.display.set_caption("Quoridor Game")
+        #window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        #pygame.display.set_caption("Quoridor Game")
 
         game = Quoridor(board_size, chromosome1, chromosome2)
 
@@ -475,7 +475,7 @@ class Quoridor:
 
             # game.draw_board()
             # game.draw_log()
-            pygame.display.update()
+            #pygame.display.update()
 
         #input("Press any key to terminate")
         game_state = {
